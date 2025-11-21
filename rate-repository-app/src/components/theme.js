@@ -1,5 +1,5 @@
-import Constants from 'expo-constants'
-import { colord } from 'colord'
+import Constants from 'expo-constants';
+import { colord } from 'colord';
 export const onedark = {
   colors: {
     white: '#abb2bf',
@@ -11,7 +11,7 @@ export const onedark = {
     purple: '#c678dd',
     cyan: '#56b6c2',
   },
-}
+};
 const theme = {
   colors: {
     textPrimary: onedark.colors.black,
@@ -33,7 +33,7 @@ const theme = {
 
   appBar: {
     container: {
-      backgroundColor: onedark.colors.black,
+      backgroundColor: colord(onedark.colors.blue).darken(0.1).toHex(),
       paddingTop: Constants.statusBarHeight,
     },
 
@@ -41,6 +41,6 @@ const theme = {
       color: onedark.colors.green,
     },
   },
-}
+};
 
-export default theme
+export default theme;

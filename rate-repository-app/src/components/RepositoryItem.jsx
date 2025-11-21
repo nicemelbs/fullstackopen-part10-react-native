@@ -1,8 +1,9 @@
-import Text from './Text'
-import ListItemContainer from './ListItemContainer'
-import { View, Image, StyleSheet } from 'react-native'
-import { onedark } from './theme'
-import { colord } from 'colord'
+import Text from './Text';
+import ListItemContainer from './ListItemContainer';
+import { View, Image, StyleSheet, Pressable, Linking } from 'react-native';
+import { onedark } from './theme';
+import { colord } from 'colord';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,13 +51,13 @@ const styles = StyleSheet.create({
       color: onedark.colors.black,
     },
   },
-})
+});
 
 const StatLine = ({ label, stat }) => {
   const shorten = Intl.NumberFormat('en', {
     notation: 'compact',
     maximumFractionDigits: 1,
-  })
+  });
   return (
     <View style={styles.statLine}>
       <Text fontWeight="bold" style={{ alignSelf: 'center' }}>
@@ -64,18 +65,29 @@ const StatLine = ({ label, stat }) => {
       </Text>
       <Text style={{ alignSelf: 'center' }}>{label}</Text>
     </View>
-  )
-}
+  );
+};
 
 const RepositoryItem = ({ style, item }) => {
+  const openGithubLink = async (link) => {
+    const url = `https://github.com/${link}`;
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(url);
+    } else console.error(`Don't know how to open this URL: ${url}`);
+  };
+
   return (
     <ListItemContainer style={styles.container}>
       <View style={styles.heading}>
         <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
         <View style={styles.nameAndDescription}>
-          <Text fontSize="subheading" fontWeight="bold">
-            {item.fullName}
-          </Text>
+          <Pressable onPress={() => openGithubLink(item.fullName)}>
+            <Text fontSize="subheading" fontWeight="bold">
+              {item.fullName}
+            </Text>
+          </Pressable>
           <Text>{item.description}</Text>
           <View style={styles.languageContainer}>
             <View style={styles.languageItem}>
@@ -92,7 +104,7 @@ const RepositoryItem = ({ style, item }) => {
         <StatLine label="Rating" stat={item.ratingAverage} />
       </View>
     </ListItemContainer>
-  )
-}
+  );
+};
 
-export default RepositoryItem
+export default RepositoryItem;

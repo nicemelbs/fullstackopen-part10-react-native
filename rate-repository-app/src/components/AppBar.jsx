@@ -1,6 +1,7 @@
-import { View, StyleSheet, Pressable } from 'react-native'
-import Text from './Text'
-import theme from './theme'
+import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
+import Text from './Text';
+import theme from './theme';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,23 +21,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: theme.fontWeights.bold,
   },
-})
+});
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Pressable style={styles.tab}>
-        <View>
-          <Text style={styles.linkText}>Repositories</Text>
-        </View>
-      </Pressable>
-      <Pressable style={styles.tab}>
-        <View>
-          <Text style={styles.linkText}>Ratings</Text>
-        </View>
-      </Pressable>
+      <ScrollView horizontal>
+        <Pressable style={styles.tab}>
+          <Link to="/">
+            <View>
+              <Text style={styles.linkText}>Repositories</Text>
+            </View>
+          </Link>
+        </Pressable>
+        <Pressable style={styles.tab}>
+          <Link to="/signin">
+            <View>
+              <Text style={styles.linkText}>Sign in</Text>
+            </View>
+          </Link>
+        </Pressable>
+      </ScrollView>
     </View>
-  )
-}
+  );
+};
 
-export default AppBar
+export default AppBar;

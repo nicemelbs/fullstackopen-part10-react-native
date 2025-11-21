@@ -5,6 +5,15 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+
+  item: {
+    backgroundColor: '#9400d3',
+    color: '#6bff2c',
+  },
+  flexContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 })
 
 const repositories = [
@@ -61,7 +70,9 @@ const RepositoryList = () => {
     <FlatList
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem item={item} />}
+      renderItem={({ item }) => (
+        <RepositoryItem style={styles.item} item={item} />
+      )}
       keyExtractor={(item) => item.id}
     />
   )

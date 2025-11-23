@@ -73,7 +73,7 @@ const RepositoryList = () => {
 
   useEffect(() => {
     if (loading) setRepositoryNodes([]);
-    else setRepositoryNodes(repositories.edges?.map((edge) => edge.node));
+    else setRepositoryNodes(repositories);
   }, [loading]);
 
   return (

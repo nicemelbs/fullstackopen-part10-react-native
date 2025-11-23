@@ -1,5 +1,6 @@
 import Constants from 'expo-constants';
 import { colord } from 'colord';
+import { Platform } from 'react-native';
 export const onedark = {
   colors: {
     white: '#abb2bf',
@@ -24,7 +25,11 @@ const theme = {
     subheading: 16,
   },
   fonts: {
-    main: 'System',
+    main: Platform.select({
+      android: 'Roboto',
+      ios: 'Arial',
+      default: 'System',
+    }),
   },
   fontWeights: {
     normal: '400',

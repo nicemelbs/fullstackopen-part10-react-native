@@ -1,4 +1,4 @@
-import { View, Button, TextInput, StyleSheet } from 'react-native';
+import { View, Button, TextInput, StyleSheet, Platform } from 'react-native';
 import { onedark } from './theme';
 import { colord } from 'colord';
 import { useFormik } from 'formik';
@@ -87,6 +87,7 @@ const SignInForm = ({ onSubmit, initialValues }) => {
 
 const SignIn = () => {
   const onSubmit = (values) => {
+    console.log(Platform.OS, Platform.Version);
     console.log(values);
   };
 

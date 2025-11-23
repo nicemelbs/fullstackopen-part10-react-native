@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { Text, StyleSheet, View } from 'react-native';
+import { Platform, Text, StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
 import { Route, Routes, Navigate } from 'react-router-native';
 

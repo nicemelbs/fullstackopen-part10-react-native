@@ -6,7 +6,9 @@ const useSignIn = () => {
 
   const signIn = async ({ username, password }) => {
     const credentials = { username, password };
-    await mutate({ variables: { credentials } });
+    const res = await mutate({ variables: { credentials } });
+
+    return res;
   };
 
   return [signIn, result];

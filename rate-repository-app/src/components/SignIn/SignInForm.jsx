@@ -1,12 +1,9 @@
-import { View, Button, TextInput, StyleSheet, Platform } from 'react-native';
-import { onedark } from './theme';
+import { View, Button, TextInput, StyleSheet } from 'react-native';
+import { onedark } from '../theme';
 import { colord } from 'colord';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Text from './Text';
-import useSignIn from '../hooks/useSignIn';
-import useAuthStorage from '../hooks/useAuthStorage';
-
+import Text from '../Text';
 const styles = StyleSheet.create({
   form: {
     backgroundColor: onedark.colors.black,
@@ -87,30 +84,4 @@ const SignInForm = ({ onSubmit, initialValues }) => {
   );
 };
 
-const SignIn = () => {
-  const [signIn, result] = useSignIn();
-
-  const authStorage = useAuthStorage();
-
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-
-    try {
-      const credentials = { username, password };
-      await signIn(credentials);
-
-      const accessToken = result?.data?.authenticate?.accessToken ?? '';
-      await authStorage.setAccessToken({ accessToken });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const initialValues = {
-    username: '',
-    password: '',
-  };
-  return <SignInForm onSubmit={onSubmit} initialValues={initialValues} />;
-};
-
-export default SignIn;
+export default SignInForm;

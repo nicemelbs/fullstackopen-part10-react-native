@@ -1,7 +1,10 @@
-import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Text from './Text';
 import theme from './theme';
-import { Link } from 'react-router-native';
+import { useApolloClient, useQuery } from '@apollo/client/react';
+import { ME } from '../graphql/queries';
+import useAuthStorage from '../hooks/useAuthStorage';
+import AppBarPressable from './AppBarPressable';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,8 +16,8 @@ const styles = StyleSheet.create({
   },
   tab: {
     ...theme.appBar.tab,
-    marginVertical: 15,
-    paddingLeft: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
   },
 
   linkText: {
@@ -24,23 +27,47 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const { data } = useQuery(ME);
+  const loggedInUser = data?.me?.username ?? null;
+
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
+
+  const handleSignOut = async () => {
+    console.log('logging out', loggedInUser);
+    await authStorage.removeAccessToken();
+    apolloClient.resetStore();
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
-        <Pressable style={styles.tab}>
-          <Link to="/">
-            <View>
-              <Text style={styles.linkText}>Repositories</Text>
-            </View>
-          </Link>
-        </Pressable>
-        <Pressable style={styles.tab}>
-          <Link to="/signin">
+        <AppBarPressable linkTo="/" style={styles.tab}>
+          <View>
+            <Text style={styles.linkText}>Repositories</Text>
+          </View>
+        </AppBarPressable>
+
+        {!loggedInUser && (
+          <AppBarPressable linkTo="/signin" style={styles.tab}>
             <View>
               <Text style={styles.linkText}>Sign in</Text>
             </View>
-          </Link>
-        </Pressable>
+          </AppBarPressable>
+        )}
+
+        {loggedInUser && (
+          <>
+            <AppBarPressable onPress={handleSignOut} style={styles.tab}>
+              <View>
+                <Text style={styles.linkText}>Sign Out</Text>
+              </View>
+            </AppBarPressable>
+            <View style={styles.tab}>
+              <Text>{loggedInUser}</Text>
+            </View>
+          </>
+        )}
       </ScrollView>
     </View>
   );

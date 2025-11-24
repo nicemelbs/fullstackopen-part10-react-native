@@ -44,6 +44,7 @@ const theme = {
 
     tab: {
       color: onedark.colors.green,
+      backgroundColor: colord(onedark.colors.blue).darken(0.1).toHex(),
     },
   },
 };

@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Text from './Text';
 import useSignIn from '../hooks/useSignIn';
+import useAuthStorage from '../hooks/useAuthStorage';
 
 const styles = StyleSheet.create({
   form: {
@@ -89,19 +90,19 @@ const SignInForm = ({ onSubmit, initialValues }) => {
 const SignIn = () => {
   const [signIn, result] = useSignIn();
 
-  const onSubmit = async (values) => {
-    console.log(Platform.OS, Platform.Version);
-    console.log(values);
+  const authStorage = useAuthStorage();
 
+  const onSubmit = async (values) => {
     const { username, password } = values;
 
     try {
-      await signIn({ username, password });
+      const credentials = { username, password };
+      await signIn(credentials);
 
-      const accessToken = result?.data?.authenticate?.accessToken ?? null;
-      console.log('from SignIn.jsx', accessToken);
+      const accessToken = result?.data?.authenticate?.accessToken ?? '';
+      await authStorage.setAccessToken({ accessToken });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

@@ -4,6 +4,7 @@ import { colord } from 'colord';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Text from './Text';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   form: {
@@ -86,9 +87,22 @@ const SignInForm = ({ onSubmit, initialValues }) => {
 };
 
 const SignIn = () => {
-  const onSubmit = (values) => {
+  const [signIn, result] = useSignIn();
+
+  const onSubmit = async (values) => {
     console.log(Platform.OS, Platform.Version);
     console.log(values);
+
+    const { username, password } = values;
+
+    try {
+      await signIn({ username, password });
+
+      const accessToken = result?.data?.authenticate?.accessToken ?? null;
+      console.log('from SignIn.jsx', accessToken);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const initialValues = {

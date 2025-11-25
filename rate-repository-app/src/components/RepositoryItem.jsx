@@ -2,17 +2,9 @@ import Text from './Text';
 import ListItemContainer from './ListItemContainer';
 import { View, Image, StyleSheet, Pressable, Linking } from 'react-native';
 import { onedark } from './theme';
-import { colord } from 'colord';
-import { Link } from 'react-router-native';
+import { shorten } from '../utils/shorten';
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: onedark.colors.black,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    flexDirection: 'column',
-    rowGap: 10,
-  },
   avatar: {
     width: 60,
     height: 60,
@@ -54,10 +46,6 @@ const styles = StyleSheet.create({
 });
 
 const StatLine = ({ label, stat }) => {
-  const shorten = Intl.NumberFormat('en', {
-    notation: 'compact',
-    maximumFractionDigits: 1,
-  });
   return (
     <View style={styles.statLine}>
       <Text fontWeight="bold" style={{ alignSelf: 'center' }}>
@@ -79,7 +67,7 @@ const RepositoryItem = ({ style, item }) => {
   };
 
   return (
-    <ListItemContainer style={styles.container}>
+    <ListItemContainer testID="repositoryItem">
       <View style={styles.heading}>
         <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
         <View style={styles.nameAndDescription}>

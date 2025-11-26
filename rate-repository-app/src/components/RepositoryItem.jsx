@@ -3,6 +3,7 @@ import ListItemContainer from './ListItemContainer';
 import { View, Image, StyleSheet, Pressable, Linking } from 'react-native';
 import { onedark } from './theme';
 import { shorten } from '../utils/shorten';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   avatar: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
   },
 
   stats: {
-    paddingVertical: 10,
+    paddingTop: 10,
     flexDirection: 'row',
   },
 
@@ -56,41 +57,34 @@ const StatLine = ({ label, stat }) => {
   );
 };
 
-const RepositoryItem = ({ style, item }) => {
-  const openGithubLink = async (link) => {
-    const url = `https://github.com/${link}`;
-    const supported = await Linking.canOpenURL(url);
-
-    if (supported) {
-      await Linking.openURL(url);
-    } else console.error(`Don't know how to open this URL: ${url}`);
-  };
+const RepositoryItem = ({ item }) => {
+  const navigate = useNavigate();
 
   return (
     <ListItemContainer testID="repositoryItem">
-      <View style={styles.heading}>
-        <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
-        <View style={styles.nameAndDescription}>
-          <Pressable onPress={() => openGithubLink(item.fullName)}>
+      <Pressable onPress={() => navigate(`/${item.id}`)}>
+        <View style={styles.heading}>
+          <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
+          <View style={styles.nameAndDescription}>
             <Text fontSize="subheading" fontWeight="bold">
               {item.fullName}
             </Text>
-          </Pressable>
-          <Text>{item.description}</Text>
-          <View style={styles.languageContainer}>
-            <View style={styles.languageItem}>
-              <Text style={styles.languageItem.text}>{item.language}</Text>
+            <Text>{item.description}</Text>
+            <View style={styles.languageContainer}>
+              <View style={styles.languageItem}>
+                <Text style={styles.languageItem.text}>{item.language}</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.stats}>
-        <StatLine label="Stars" stat={item.stargazersCount} />
-        <StatLine label="Forks" stat={item.forksCount} />
-        <StatLine label="Reviews" stat={item.reviewCount} />
-        <StatLine label="Rating" stat={item.ratingAverage} />
-      </View>
+        <View style={styles.stats}>
+          <StatLine label="Stars" stat={item.stargazersCount} />
+          <StatLine label="Forks" stat={item.forksCount} />
+          <StatLine label="Reviews" stat={item.reviewCount} />
+          <StatLine label="Rating" stat={item.ratingAverage} />
+        </View>
+      </Pressable>
     </ListItemContainer>
   );
 };

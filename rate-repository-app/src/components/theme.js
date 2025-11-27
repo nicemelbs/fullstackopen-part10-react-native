@@ -47,6 +47,31 @@ const theme = {
       backgroundColor: colord(onedark.colors.blue).darken(0.1).toHex(),
     },
   },
+
+  form: {
+    backgroundColor: onedark.colors.black,
+    flexDirection: 'column',
+    rowGap: 5,
+    padding: 10,
+    paddingTop: 15,
+
+    placeholder: {
+      color: colord(onedark.colors.white).darken(0.4).toHex(),
+    },
+
+    textInputError: {
+      borderColor: onedark.colors.red,
+      color: onedark.colors.red,
+    },
+
+    textInput: {
+      color: onedark.colors.white,
+      borderColor: colord(onedark.colors.black).lighten(0.05).toHex(),
+      borderWidth: 2,
+      borderRadius: 3,
+      padding: 10,
+    },
+  },
 };
 
 export default theme;

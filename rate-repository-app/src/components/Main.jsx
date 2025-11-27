@@ -8,6 +8,7 @@ import { colord } from 'colord';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
 import SingleRepositoryItem from './SingleRepositoryItem';
+import Review from './Review';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,6 +25,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/review" element={<Review />} />
         <Route path="/:id" element={<SingleRepositoryItem />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

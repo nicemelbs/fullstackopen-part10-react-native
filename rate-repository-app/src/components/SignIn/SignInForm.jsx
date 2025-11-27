@@ -1,29 +1,31 @@
 import { View, Button, TextInput, StyleSheet } from 'react-native';
-import { onedark } from '../theme';
+import theme, { onedark } from '../theme';
 import { colord } from 'colord';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Text from '../Text';
 const styles = StyleSheet.create({
-  form: {
-    backgroundColor: onedark.colors.black,
-    flexDirection: 'column',
-    rowGap: 5,
-    padding: 10,
-    paddingTop: 15,
-  },
+  // form: {
+  //   backgroundColor: onedark.colors.black,
+  //   flexDirection: 'column',
+  //   rowGap: 5,
+  //   padding: 10,
+  //   paddingTop: 15,
+  // },
 
-  textInput: {
-    color: onedark.colors.white,
-    borderColor: colord(onedark.colors.black).lighten(0.05).toHex(),
-    borderWidth: 2,
-    borderRadius: 3,
-    padding: 10,
-  },
+  // textInput: {
+  //   color: onedark.colors.white,
+  //   borderColor: colord(onedark.colors.black).lighten(0.05).toHex(),
+  //   borderWidth: 2,
+  //   borderRadius: 3,
+  //   padding: 10,
+  // },
 
-  textInputError: {
-    borderColor: onedark.colors.red,
-  },
+  // textInputError: {
+  //   borderColor: onedark.colors.red,
+  // },
+
+  form: theme.form,
 });
 
 const validationSchema = yup.object().shape({
@@ -44,36 +46,36 @@ const SignInForm = ({ onSubmit, initialValues }) => {
   return (
     <View style={styles.form}>
       <TextInput
-        placeholderTextColor={colord(onedark.colors.white).darken(0.4).toHex()}
+        placeholderTextColor={theme.form.placeholder.color}
         style={[
-          styles.textInput,
+          styles.form.textInput,
           formik.touched.username &&
             formik.errors.username &&
-            styles.textInputError,
+            styles.form.textInputError,
         ]}
         value={formik.values.username}
         onChangeText={formik.handleChange('username')}
         placeholder="username"
       />
-      <Text style={{ color: onedark.colors.red }}>
+      <Text style={styles.form.textInputError}>
         {formik.touched.username && formik.errors.username
           ? formik.errors.username
           : ''}
       </Text>
       <TextInput
-        placeholderTextColor={colord(onedark.colors.white).darken(0.4).toHex()}
+        placeholderTextColor={theme.form.placeholder.color}
         style={[
-          styles.textInput,
+          styles.form.textInput,
           formik.touched.password &&
             formik.errors.password &&
-            styles.textInputError,
+            styles.form.textInputError,
         ]}
         secureTextEntry
         value={formik.values.password}
         onChangeText={formik.handleChange('password')}
         placeholder="password"
       />
-      <Text style={{ color: onedark.colors.red }}>
+      <Text style={styles.form.textInputError}>
         {formik.touched.password && formik.errors.password
           ? formik.errors.password
           : ''}

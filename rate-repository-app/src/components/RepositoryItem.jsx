@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   nameAndDescription: {
     flexDirection: 'column',
     rowGap: 5,
+    flexShrink: 1,
   },
 
   stats: {

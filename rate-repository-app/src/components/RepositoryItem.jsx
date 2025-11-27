@@ -2,7 +2,7 @@ import Text from './Text';
 import ListItemContainer from './ListItemContainer';
 import { View, Image, StyleSheet, Pressable, Linking } from 'react-native';
 import { onedark } from './theme';
-import { shorten } from '../utils/shorten';
+import { shorten } from '../utils/helpers';
 import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({

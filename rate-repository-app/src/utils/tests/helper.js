@@ -1,4 +1,4 @@
-import { shorten } from '../shorten';
+import { shorten } from '../helpers';
 
 const escapeRegex = (str, label) => {
   if (!label) {

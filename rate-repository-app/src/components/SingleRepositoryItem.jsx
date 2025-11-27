@@ -116,6 +116,7 @@ const SingleRepositoryItem = () => {
   const { data, loading } = useQuery(GET_REPOSITORY_BY_ID, {
     variables: { id },
     skip: !id,
+    fetchPolicy: 'cache-and-network',
   });
 
   if (loading) {

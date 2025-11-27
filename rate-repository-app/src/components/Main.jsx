@@ -1,13 +1,13 @@
 import { Platform, Text, StyleSheet, View } from 'react-native';
-// import RepositoryList from './RepositoryList';
 import { Route, Routes, Navigate, useParams } from 'react-router-native';
 
-import theme, { onedark } from './theme';
+import { onedark } from './theme';
 import AppBar from './AppBar';
 import { colord } from 'colord';
 import SignIn from './SignIn';
 import RepositoryList from './RepositoryList';
 import SingleRepositoryItem from './SingleRepositoryItem';
+import SignUp from './SignUp';
 import Review from './Review';
 
 const styles = StyleSheet.create({
@@ -25,6 +25,7 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/review" element={<Review />} />
         <Route path="/:id" element={<SingleRepositoryItem />} />
         <Route path="*" element={<Navigate to="/" replace />} />

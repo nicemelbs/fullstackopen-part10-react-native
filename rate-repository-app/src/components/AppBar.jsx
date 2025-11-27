@@ -49,15 +49,27 @@ const AppBar = () => {
         </AppBarPressable>
 
         {!loggedInUser && (
-          <AppBarPressable linkTo="/signin" style={styles.tab}>
-            <View>
-              <Text style={styles.linkText}>Sign in</Text>
-            </View>
-          </AppBarPressable>
+          <>
+            <AppBarPressable linkTo="/signin" style={styles.tab}>
+              <View>
+                <Text style={styles.linkText}>Sign in</Text>
+              </View>
+            </AppBarPressable>
+            <AppBarPressable linkTo="/signup" style={styles.tab}>
+              <View>
+                <Text style={styles.linkText}>Sign up</Text>
+              </View>
+            </AppBarPressable>
+          </>
         )}
 
         {loggedInUser && (
           <>
+            <AppBarPressable linkTo="/review" style={styles.tab}>
+              <View>
+                <Text style={styles.linkText}>Review</Text>
+              </View>
+            </AppBarPressable>
             <AppBarPressable onPress={handleSignOut} style={styles.tab}>
               <View>
                 <Text style={styles.linkText}>Sign Out</Text>

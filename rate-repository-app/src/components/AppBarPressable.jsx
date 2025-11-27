@@ -9,11 +9,7 @@ const AppBarPressable = ({ linkTo, style, ...props }) => {
     <Pressable
       style={({ pressed }) => [
         style,
-        pressed &&
-          style?.backgroundColor && {
-            backgroundColor: colord(style.backgroundColor).darken(0.1).toHex(),
-            transform: [{ scale: 0.97 }],
-          },
+        pressed && { transform: [{ scale: 0.97 }] },
       ]}
       onPress={() => linkTo && navigate(linkTo)}
       {...props}

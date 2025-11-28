@@ -13,6 +13,7 @@ export const REVIEW_DETAILS = gql`
     rating
     repository {
       fullName
+      id
     }
     text
     createdAt

@@ -71,7 +71,7 @@ const SingleRepositoryItem = () => {
   const { repository, fetchMore, error, networkStatus, loading, refetch } =
     useGetRepositoryById({
       id,
-      reviewFirst: 1,
+      reviewFirst: 5,
     });
 
   const reviews = repository?.reviews?.edges?.map((e) => e.node) ?? [];

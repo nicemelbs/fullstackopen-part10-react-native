@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { data } = useQuery(ME);
+  const { data } = useQuery(ME, { variables: { includeReviews: false } });
   const loggedInUser = data?.me?.username ?? null;
 
   const authStorage = useAuthStorage();
@@ -68,6 +68,11 @@ const AppBar = () => {
             <AppBarPressable linkTo="/review" style={styles.tab}>
               <View>
                 <Text style={styles.linkText}>Review</Text>
+              </View>
+            </AppBarPressable>
+            <AppBarPressable linkTo="/reviews" style={styles.tab}>
+              <View>
+                <Text style={styles.linkText}>My Reviews</Text>
               </View>
             </AppBarPressable>
             <AppBarPressable onPress={handleSignOut} style={styles.tab}>

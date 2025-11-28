@@ -36,13 +36,5 @@ export const REPOSITORY_DETAILS = gql`
     reviewCount
     ownerAvatarUrl
     url
-    reviews {
-      edges {
-        node {
-          ...ReviewDetails
-        }
-      }
-    }
   }
-  ${REVIEW_DETAILS}
 `;

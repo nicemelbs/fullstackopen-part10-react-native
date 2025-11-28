@@ -4,11 +4,20 @@ import { useParams } from 'react-router-native';
 import { useQuery } from '@apollo/client/react';
 import { GET_REPOSITORY_BY_ID } from '../graphql/queries';
 import Text from './Text';
-import { Pressable, FlatList, Linking, StyleSheet, View } from 'react-native';
+import {
+  Pressable,
+  FlatList,
+  Linking,
+  StyleSheet,
+  View,
+  Button,
+} from 'react-native';
 import theme, { onedark } from './theme';
 import { format } from 'date-fns';
 import { colord } from 'colord';
 import ReviewItem from './Reviews/ReviewItem';
+import { ActivityIndicator } from 'react-native-paper';
+import useGetRepositoryById from '../hooks/useGetRepositoryById';
 
 const styles = StyleSheet.create({
   separator: {
@@ -20,11 +29,12 @@ const styles = StyleSheet.create({
     button: {
       backgroundColor: onedark.colors.green,
       alignSelf: 'center',
-      paddingVertical: 12,
-      paddingHorizontal: 24,
+      justifyContent: 'center',
+      flexDirection: 'row',
       borderRadius: 8,
       text: {
-        color: onedark.colors.black,
+        color: colord(onedark.colors.white).lighten(0.1).toHex(),
+        textTransform: 'uppercase',
       },
     },
 
@@ -41,12 +51,13 @@ const ListHead = ({ item }) => {
     <View style={styles.headComponent}>
       <View style={styles.headComponent.wrapper}>
         <RepositoryItem item={item} />
-        <Pressable
-          style={styles.headComponent.button}
-          onPress={() => Linking.openURL(item.url)}
-        >
-          <Text style={styles.headComponent.button.text}>Open in GitHub</Text>
-        </Pressable>
+        <View style={styles.headComponent.button}>
+          <Button
+            title="Open in GitHub"
+            onPress={() => Linking.openURL(item.url)}
+            color={colord(onedark.colors.blue).darken(0.1).toHex()}
+          />
+        </View>
       </View>
     </View>
   );
@@ -56,17 +67,19 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const SingleRepositoryItem = () => {
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_REPOSITORY_BY_ID, {
-    variables: { id },
-    skip: !id,
-    fetchPolicy: 'cache-and-network',
-  });
 
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
+  const { repository, fetchMore, error, networkStatus, loading, refetch } =
+    useGetRepositoryById({
+      id,
+      reviewFirst: 1,
+    });
 
-  const reviews = data?.repository?.reviews?.edges?.map((e) => e.node) ?? [];
+  const reviews = repository?.reviews?.edges?.map((e) => e.node) ?? [];
+
+  const loadingMore = networkStatus === 3;
+  const handleEndReached = () => {
+    fetchMore();
+  };
 
   return (
     <FlatList
@@ -75,8 +88,13 @@ const SingleRepositoryItem = () => {
         <ReviewItem review={item} header={item.user.username} />
       )}
       keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => <ListHead item={data?.repository} />}
+      ListHeaderComponent={() =>
+        repository ? <ListHead item={repository} /> : <ActivityIndicator />
+      }
       ItemSeparatorComponent={ItemSeparator}
+      onEndReachedThreshold={0.5}
+      onEndReached={handleEndReached}
+      ListFooterComponent={loadingMore ? <ActivityIndicator /> : null}
     />
   );
 };

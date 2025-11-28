@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
 
+  repositoryNameText: {
+    color: onedark.colors.red,
+  },
+
   stats: {
     paddingTop: 10,
     flexDirection: 'row',
@@ -67,7 +71,11 @@ const RepositoryItem = ({ item }) => {
         <View style={styles.heading}>
           <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
           <View style={styles.nameAndDescription}>
-            <Text fontSize="subheading" fontWeight="bold">
+            <Text
+              style={styles.repositoryNameText}
+              fontSize="subheading"
+              fontWeight="bold"
+            >
               {item.fullName}
             </Text>
             <Text>{item.description}</Text>

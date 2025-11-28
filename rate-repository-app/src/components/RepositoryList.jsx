@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, ActivityIndicator } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 import Text from './Text';
@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import theme, { onedark } from './theme';
 import { colord } from 'colord';
 import { Searchbar } from 'react-native-paper';
-import { useDebounce, useDebouncedCallback } from 'use-debounce';
+import { useDebounce } from 'use-debounce';
 
 const styles = StyleSheet.create({
   separator: {
@@ -106,8 +106,13 @@ const ListHeader = ({
 };
 
 const RepositoryList = () => {
-  const { repositories, loading, refetch } = useRepositories();
+  const { repositories, fetchMore, error, networkStatus, loading, refetch } =
+    useRepositories({
+      first: 5,
+      notifyOnNetworkStatusChange: true,
+    });
 
+  const loadingMore = networkStatus === 3;
   const [selectedSort, setSelectedSort] = useState('latest');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch] = useDebounce(searchQuery, 500);
@@ -122,14 +127,6 @@ const RepositoryList = () => {
     } else fetchRepos(undefined);
   }, [debouncedSearch]);
 
-  if (loading) {
-    return (
-      <View>
-        <Text>Loading data...</Text>
-      </View>
-    );
-  }
-
   const handleSortChange = async (value) => {
     setSelectedSort(value);
 
@@ -142,11 +139,14 @@ const RepositoryList = () => {
     await refetch(sortOptions[value]);
   };
 
+  const handleEndReached = () => {
+    fetchMore();
+  };
   return (
     <FlatList
-      data={repositories}
+      data={repositories?.edges ?? []}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem item={item} />}
+      renderItem={({ item }) => <RepositoryItem item={item.node} />}
       ListHeaderComponent={
         <ListHeader
           selectedValue={selectedSort}
@@ -155,7 +155,10 @@ const RepositoryList = () => {
           onChangeText={setSearchQuery}
         />
       }
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.node.id.toString()}
+      onEndReachedThreshold={0.5}
+      onEndReached={handleEndReached}
+      ListFooterComponent={loadingMore ? <ActivityIndicator /> : null}
     />
   );
 };

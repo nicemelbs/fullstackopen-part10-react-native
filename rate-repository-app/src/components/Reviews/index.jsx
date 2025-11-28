@@ -55,7 +55,6 @@ const Reviews = () => {
   });
 
   const [deleteReview] = useMutation(DELETE_REVIEW, {
-    onCompleted: () => refetch(),
     onError: (error) => console.error(error),
   });
 
@@ -70,8 +69,9 @@ const Reviews = () => {
 
         {
           text: 'Yes',
-          onPress: () => {
-            deleteReview({ variables: { deleteReviewId: id } });
+          onPress: async () => {
+            await deleteReview({ variables: { deleteReviewId: id } });
+            await refetch();
           },
         },
       ]

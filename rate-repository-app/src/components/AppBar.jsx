@@ -34,7 +34,6 @@ const AppBar = () => {
   const apolloClient = useApolloClient();
 
   const handleSignOut = async () => {
-    console.log('logging out', loggedInUser);
     await authStorage.removeAccessToken();
     apolloClient.resetStore();
   };
